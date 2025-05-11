@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 
-import { SimpleDropDown } from '../shared/SimpleDropdown';
+import { SimpleDropDown } from '../shared/simpleDropdown/SimpleDropdown';
 import { styles } from './CultureForm.styles';
 import { formCultureUA as ua } from '../../translations';
 

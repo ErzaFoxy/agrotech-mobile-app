@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import {styles} from './SimpleDropdown.styles'
-import { DropdownContext } from '../layout/LayoutWrapper';
+import { DropdownContext } from '../../layout/LayoutWrapper';
 
 interface Option {
   label: string;
