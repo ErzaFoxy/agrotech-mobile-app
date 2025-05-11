@@ -1,0 +1,1 @@
+export { formCultureUA } from './formCulture';
