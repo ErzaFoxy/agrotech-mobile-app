@@ -7,12 +7,12 @@ export const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
     zIndex: 1,
   },
   dropdown: {
     position: 'absolute',
-    backgroundColor: '#e6f4cc',
+    backgroundColor: '#B8D088F2',
     borderBottomRightRadius: 16,
     borderTopRightRadius: 16,
     borderBottomLeftRadius: 16,
@@ -23,14 +23,15 @@ export const styles = StyleSheet.create({
     elevation: Platform.OS === 'android' ? 6 : 0,
     zIndex: 9999,
     alignSelf: 'flex-start',
+    paddingVertical: 9,
   },
   item: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 15,
   },
   itemText: {
     fontSize: 16,
-    color: '#333',
+    color: '#fff',
   },
   selectedItemText: {
     color: '#f6c200',

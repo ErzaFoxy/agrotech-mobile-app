@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, TouchableOpacity, Image } from "react-native";
+import {View, TouchableOpacity, Keyboard} from "react-native";
 
 import { styles } from "./Header.styles";
 import Logo from "../../../assets/logo-w-1.svg";
@@ -15,7 +15,10 @@ export const Header = ({onMenuPress}: Props) => {
     return( 
         <View style={styles.container}>
             <Logo width={styles.logo.width} height={styles.logo.height} />
-            <TouchableOpacity onPress={onMenuPress}>
+            <TouchableOpacity onPress={() => {
+                            Keyboard.dismiss();
+                            onMenuPress();
+                        }}>
                 <MenuIcon width={styles.menu.width} height={styles.menu.height} />
             </TouchableOpacity>
         </View>

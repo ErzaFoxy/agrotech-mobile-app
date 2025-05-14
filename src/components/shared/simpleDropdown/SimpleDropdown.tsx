@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useRef } from 'react';
 import {
   Text,
   TouchableOpacity,
   View,
-  FlatList,
+  View as RNView,
+  Keyboard
 } from 'react-native';
 
-import {styles} from './SimpleDropdown.styles'
-import { DropdownContext } from '../../layout/LayoutWrapper';
+import { styles } from './SimpleDropdown.styles';
+import { useDropdown } from '../dropDownOverlayManager/DropDownOverlayManager';
 
 interface Option {
   label: string;
@@ -17,7 +18,7 @@ interface Option {
 interface Props {
   label: string;
   value: string;
-  setValue: (value: string) => void;
+  setValue: (val: string) => void;
   list: Option[];
   error?: boolean;
 }
@@ -29,35 +30,23 @@ export const SimpleDropDown: React.FC<Props> = ({
   list,
   error,
 }) => {
+  const inputRef = useRef<RNView>(null);
+  const { showDropdown } = useDropdown();
 
-  const [dropdownWidth, setDropdownWidth] = useState(160);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const { setCloseDropdown } = useContext(DropdownContext);
-
-  const selectedLabel = list.find(i => i.value === value)?.label || '...';
-
-  useEffect(() => {
-    const getTextWidth = (text: string) => text.length * 9; // 9px на символ
-    const maxLabelWidth = Math.max(...list.map(item => getTextWidth(item.label)));
-    setDropdownWidth(maxLabelWidth + 30); // + padding
-  }, [list]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setCloseDropdown(() => () => setIsOpen(false));
-    }
-  }, [isOpen, setCloseDropdown]);
+  const selectedLabel = list.find(option => option.value === value)?.label || '...';
 
   const handleToggle = () => {
-    setIsOpen(prev => !prev);
+    if (!inputRef.current) return;
+
+    inputRef.current.measureInWindow((x, y, width, height) => {
+      showDropdown({
+        list,
+        value,
+        setValue,
+        triggerLayout: { x, y, width, height },
+      });
+    });
   };
-
-  const handleSelect = (newValue: string) => {
-    setValue(newValue);
-    setIsOpen(false);
-  }
-
 
   return (
     <View style={styles.wrapper}>
@@ -65,41 +54,17 @@ export const SimpleDropDown: React.FC<Props> = ({
 
       <View style={styles.inputWrapper}>
         <TouchableOpacity
+          ref={inputRef}
           style={[styles.input, error && styles.inputError]}
-          onPress={handleToggle}
+          onPress={() => {
+            Keyboard.dismiss();
+            handleToggle();
+          }}
           activeOpacity={0.8}
         >
           <Text style={styles.inputText}>{selectedLabel}</Text>
         </TouchableOpacity>
-
-        {isOpen && (
-          <View style={[styles.dropdown, { width: dropdownWidth }]}>
-            <FlatList
-              data={list}
-              keyExtractor={(item) => item.value}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.item}
-                  onPress={() => {
-                    handleSelect(item.value);
-                  }}
-                >
-                  <Text
-                    numberOfLines={1}
-                    style={[
-                      styles.itemText,
-                      item.value === value && styles.selectedItemText
-                    ]}
-                  >
-                    {item.label}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        )}
       </View>
     </View>
   );
 };
-

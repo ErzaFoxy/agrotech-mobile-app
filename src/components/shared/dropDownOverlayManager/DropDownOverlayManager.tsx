@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   FlatList,
   LayoutRectangle,
   Pressable,
+  Dimensions
 } from 'react-native';
 import { Portal } from 'react-native-portalize';
 import { styles } from './DropDownOverlayManager.style';
@@ -35,7 +36,10 @@ const DropDownOverlayContext = createContext<DropdownContextProps>({
 
 export const useDropdown = () => useContext(DropDownOverlayContext);
 
-export const DropDownOverlayManagerProvider = ({ children }: { children: ReactNode }) => {
+type Props = {
+  children: ReactNode;
+};
+export const DropDownOverlayManagerProvider: React.FC<Props> = ({ children }) => {
   const [dropdownState, setDropdownState] = useState<DropdownState | null>(null);
 
   const showDropdown = (state: DropdownState) => {
@@ -53,6 +57,23 @@ export const DropDownOverlayManagerProvider = ({ children }: { children: ReactNo
     }
   };
 
+const calculatedDropdownWidth = useMemo(() => {
+  if (!dropdownState || dropdownState.list.length === 0) return 0;
+
+  const longestLabel = dropdownState.list.reduce((longest, current) => {
+    return current.label.length > longest.label.length ? current : longest;
+  }, { label: '', value: '' });
+
+  const approxCharWidth = 11;
+  const padding = 20;
+  const width = longestLabel.label.length * approxCharWidth + padding;
+
+  return Math.ceil(width);
+}, [dropdownState]);
+
+const screenWidth = Dimensions.get('window').width;
+const offsetX = screenWidth * 0.45;
+
   return (
     <DropDownOverlayContext.Provider value={{ showDropdown, hideDropdown }}>
       {children}
@@ -64,9 +85,9 @@ export const DropDownOverlayManagerProvider = ({ children }: { children: ReactNo
               style={[
                 styles.dropdown,
                 {
-                  top: dropdownState.triggerLayout.y + dropdownState.triggerLayout.height,
-                  left: dropdownState.triggerLayout.x,
-                  minWidth: dropdownState.triggerLayout.width,
+                  top: dropdownState.triggerLayout.y + dropdownState.triggerLayout.height - 20,
+                  left: Math.min(screenWidth - calculatedDropdownWidth - 10, dropdownState.triggerLayout.x + offsetX),
+                  width: calculatedDropdownWidth,
                 },
               ]}
             >
