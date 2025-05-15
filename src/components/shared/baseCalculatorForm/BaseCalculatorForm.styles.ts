@@ -3,8 +3,8 @@ import { StyleSheet, Platform } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    paddingTop: 30,
-    gap: 13,
+    paddingTop: 10,
+    gap: 10,
   },
   title: {
     fontSize: 20,
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 20,
   },
   buttonText: {
     color: '#fff',
@@ -59,5 +59,34 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     fontWeight: '500',
-  }
+  },
+  noteButtonWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginTop: 12,
+    gap: 8
+  },
+  noteButton: {
+    width: 40,
+    height: 40,
+  },
+  noteHint: {
+    color: '#FFD700',
+    fontSize: 14,
+    fontWeight: '500'
+  },
+  noteButtonTouchable: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  futureResult: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#fff',
+    marginTop: 40,
+    marginBottom: 20
+  },
 });

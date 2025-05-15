@@ -26,4 +26,9 @@ export const formCultureUA = {
   onlyNumberError: 'Будь ласка, введіть число',
   positiveNumberError: 'Число має бути більше нуля',
   calculationError: 'Помилка розрахунку',
+  cultureWheatFertilizers: 'Авідо, Актуал, Альвіус',
+
+  addNote: 'Додати розрахунки у запис',
+  isSaved: 'Додано до запису',
+  futureResult: 'Отриманий результат розрахунку',
 };

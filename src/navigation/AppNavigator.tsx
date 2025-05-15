@@ -5,7 +5,7 @@ import { TabView, SceneMap } from 'react-native-tab-view';
 import { LayoutWrapper } from '../components/layout/LayoutWrapper';
 import { Header } from '../components/header/Header';
 import { CultureScreen } from '../screens/CultureScreen';
-// import { AreaScreen } from '../screens/areaScreen';
+import { AreaScreen } from '../screens/AreaScreen';
 // import { WeatherScreen } from '../screens/weatherScreen';
 // import { NotesScreen } from '../screens/notesScreen';
 // import { NewsScreen } from '../screens/newsScreen';
@@ -13,7 +13,7 @@ import { CultureScreen } from '../screens/CultureScreen';
 
 const routes = [
   { key: 'culture' },
-  // { key: 'area' },
+  { key: 'area' },
   // { key: 'weather' },
   // { key: 'notes' },
   // { key: 'news' },
@@ -22,7 +22,7 @@ const routes = [
 
 const renderScene = SceneMap({
   culture: CultureScreen,
-  // area: AreaScreen,
+  area: AreaScreen,
   // weather: WeatherScreen,
   // notes: NotesScreen,
   // news: NewsScreen,

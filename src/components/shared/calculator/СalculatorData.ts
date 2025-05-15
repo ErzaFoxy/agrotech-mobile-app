@@ -2,12 +2,12 @@
 import { formCultureUA as ua } from '../../../translations';
 
 export const cultureList = [
-  { label: ua.cultureWheat, value: 'wheat' },
-  { label: ua.cultureSoy, value: 'soy' },
-  { label: ua.cultureCorn, value: 'corn' },
-  { label: ua.cultureBarley, value: 'barley' },
-  { label: ua.cultureRapeseed, value: 'rapeseed' },
-  { label: ua.cultureFlax, value: 'flax' },
+  { label: ua.cultureWheat, value: 'wheat', fertilizers: ua.cultureWheatFertilizers },
+  { label: ua.cultureSoy, value: 'soy', fertilizers: ua.cultureWheatFertilizers },
+  { label: ua.cultureCorn, value: 'corn', fertilizers: ua.cultureWheatFertilizers },
+  { label: ua.cultureBarley, value: 'barley', fertilizers: ua.cultureWheatFertilizers },
+  { label: ua.cultureRapeseed, value: 'rapeseed', fertilizers: ua.cultureWheatFertilizers },
+  { label: ua.cultureFlax, value: 'flax', fertilizers: ua.cultureWheatFertilizers },
 ];
 
 export const regionList = [

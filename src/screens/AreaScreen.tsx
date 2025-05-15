@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 
 import { AreaForm } from "../components/areaForm/AreaForm";
 
-export const CultureScreen = () => {
+export const AreaScreen = () => {
 
     return (
         <View style={styles.container}>

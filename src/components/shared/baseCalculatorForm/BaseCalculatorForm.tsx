@@ -6,13 +6,17 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Keyboard
+  Keyboard,
+  Image
 } from 'react-native';
 import { styles } from './BaseCalculatorForm.styles';
 import { SimpleDropDown } from '../simpleDropdown/SimpleDropdown';
 import { cultureList, regionList } from '../calculator/СalculatorData';
 import { calculateValue } from '../calculator/Calculator';
 import { formCultureUA as ua } from '../../../translations';
+import { CalculationResultCard } from "../calculationResultCard/CalculationResultCard";
+import IconPlus from "../../../../assets/plus-notes.svg";
+import IconPlusActive from "../../../../assets/plus-notes-active.svg";
 
 interface Props {
   mode: 'area' | 'culture';
@@ -24,13 +28,18 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
   const [region, setRegion] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState('');
-  const [calculatorResult, setCalculatorResult] = useState('');
+  const [isSaved, setIsSaved] = useState(false);
+  const [calculatorResult, setCalculatorResult] = useState<{
+    inputValue: string;
+    result: number;
+    culture: string;
+    } | null>(null);
 
   const handleSubmit = () => {
     const normalizedInput = inputValue.replace(/\s/g, '');
     const numericValue = parseFloat(normalizedInput);
 
-    if (!culture || !region) {
+    if (!culture || !region || !inputValue) {
       setError(ua.fillAllFields);
     } else if (isNaN(numericValue)) {
       setError(ua.onlyNumberError);
@@ -39,17 +48,36 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
     } else {
       const result = calculateValue(culture, region, numericValue, mode);
       if (result === null) {
-        setError(ua.calculationError);
-      } else {
-        setError('');
-        setCalculatorResult(`Результат розрахунку: ${result}`);
-        return;
-      }
+            setError(ua.calculationError);
+            setCalculatorResult(null);
+            } else {
+            setError('');
+            setCalculatorResult({
+                inputValue: normalizedInput,
+                result,
+                culture,
+            });
+        }
     }
-    setCalculatorResult('');
   };
 
+ const IconComponent = isSaved ? IconPlus : (calculatorResult ? IconPlusActive : IconPlus);
+ const handleAddToNotes = () => {
+  console.log('Зберігаємо розрахунок у нотатки...');
+  setIsSaved(true);
+
+  // Очистити форму через 3 секунди
+  setTimeout(() => {
+    setIsSaved(false);
+    setCalculatorResult(null);
+    setCulture('');
+    setRegion('');
+    setInputValue('');
+  }, 3000);
+};
+
   const getErrorStyle = (field: string) => !field && error ? styles.inputError : {};
+
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
@@ -92,8 +120,29 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
           <Text style={styles.buttonText}>{ua.resultBtn}</Text>
         </TouchableOpacity>
 
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        {calculatorResult ? <Text style={styles.resultText}>{calculatorResult}</Text> : null}
+        {error ? <Text style={styles.errorText}>{error}</Text> :
+        (calculatorResult ? 
+            <CalculationResultCard
+                mode={mode}
+                culture={calculatorResult.culture}
+                inputValue={calculatorResult.inputValue}
+                result={calculatorResult.result}
+            />
+        : <Text style={styles.futureResult}>{ua.futureResult}</Text>)}
+
+        <View style={styles.noteButtonWrapper}>
+          <TouchableOpacity 
+              onPress={handleAddToNotes} 
+              style={styles.noteButtonTouchable}
+              disabled={isSaved}
+          >
+            {calculatorResult && (<Text style={styles.noteHint}>
+              {isSaved ? ua.isSaved : calculatorResult ? ua.addNote : ''}
+              </Text>)}
+            <IconComponent width={styles.noteButton.width} height={styles.noteButton.height} />
+          </TouchableOpacity>
+        </View>
+
       </View>
     </KeyboardAvoidingView>
   );
