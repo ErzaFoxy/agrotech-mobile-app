@@ -6,15 +6,19 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Keyboard,
-  Image
+  Keyboard
 } from 'react-native';
+
 import { styles } from './BaseCalculatorForm.styles';
 import { SimpleDropDown } from '../simpleDropdown/SimpleDropdown';
-import { cultureList, regionList } from '../calculator/СalculatorData';
+import { cultureList, regionList } from '../calculator/CalculatorData';
 import { calculateValue } from '../calculator/Calculator';
 import { formCultureUA as ua } from '../../../translations';
 import { CalculationResultCard } from "../calculationResultCard/CalculationResultCard";
+import { useAuth } from '../../../context/authContext';
+import { AuthPromptModal } from '../../modals/AuthPromptModal'
+import { useSaveNote } from '../../../hooks/useSaveNote';
+
 import IconPlus from "../../../../assets/plus-notes.svg";
 import IconPlusActive from "../../../../assets/plus-notes-active.svg";
 
@@ -33,7 +37,9 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
     inputValue: string;
     result: number;
     culture: string;
-    } | null>(null);
+  } | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
 
   const handleSubmit = () => {
     const normalizedInput = inputValue.replace(/\s/g, '');
@@ -48,32 +54,49 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
     } else {
       const result = calculateValue(culture, region, numericValue, mode);
       if (result === null) {
-            setError(ua.calculationError);
-            setCalculatorResult(null);
-            } else {
-            setError('');
-            setCalculatorResult({
-                inputValue: normalizedInput,
-                result,
-                culture,
-            });
-        }
+        setError(ua.calculationError);
+        setCalculatorResult(null);
+      } else {
+        setError('');
+        setCalculatorResult({
+          inputValue: normalizedInput,
+          result,
+          culture,
+        });
+      }
     }
   };
 
- const IconComponent = isSaved ? IconPlus : (calculatorResult ? IconPlusActive : IconPlus);
- const handleAddToNotes = () => {
-  console.log('Зберігаємо розрахунок у нотатки...');
-  setIsSaved(true);
+const IconComponent = isSaved ? IconPlus : (calculatorResult && !error ? IconPlusActive : IconPlus);
+const { user } = useAuth();
+const { saveNote } = useSaveNote();
+const resetForm = () => {
+  setCalculatorResult(null);
+  setCulture('');
+  setRegion('');
+  setInputValue('');
+  setError('');
+};
 
-  // Очистити форму через 3 секунди
-  setTimeout(() => {
-    setIsSaved(false);
-    setCalculatorResult(null);
-    setCulture('');
-    setRegion('');
-    setInputValue('');
-  }, 3000);
+const handleAddToNotes = () => {
+  if (!calculatorResult || error) {
+    console.log('no calc result');
+    return;
+  }
+
+  console.log('user from context:', user);
+
+  saveNote({
+    culture,
+    region,
+    inputValue,
+    result: calculatorResult.result,
+    mode,
+    resetForm,
+    setError,
+    setIsSaved,
+    openAuthModal: () => setShowAuthModal(true),
+  });
 };
 
   const getErrorStyle = (field: string) => !field && error ? styles.inputError : {};
@@ -121,27 +144,40 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
         </TouchableOpacity>
 
         {error ? <Text style={styles.errorText}>{error}</Text> :
-        (calculatorResult ? 
+          (calculatorResult ?
             <CalculationResultCard
-                mode={mode}
-                culture={calculatorResult.culture}
-                inputValue={calculatorResult.inputValue}
-                result={calculatorResult.result}
+              mode={mode}
+              culture={calculatorResult.culture}
+              inputValue={calculatorResult.inputValue}
+              result={calculatorResult.result}
             />
-        : <Text style={styles.futureResult}>{ua.futureResult}</Text>)}
+            : <Text style={styles.futureResult}>{ua.futureResult}</Text>)}
 
         <View style={styles.noteButtonWrapper}>
-          <TouchableOpacity 
-              onPress={handleAddToNotes} 
-              style={styles.noteButtonTouchable}
-              disabled={isSaved}
+          <TouchableOpacity
+            onPress={handleAddToNotes}
+            style={styles.noteButtonTouchable}
+            disabled={isSaved}
           >
-            {calculatorResult && (<Text style={styles.noteHint}>
-              {isSaved ? ua.isSaved : calculatorResult ? ua.addNote : ''}
-              </Text>)}
+            {calculatorResult  && !error && (<Text style={styles.noteHint}>
+              {isSaved ? ua.isSaved : ua.addNote}
+            </Text>)}
             <IconComponent width={styles.noteButton.width} height={styles.noteButton.height} />
           </TouchableOpacity>
         </View>
+
+        <AuthPromptModal
+          isVisible={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onRegister={() => {
+            setShowAuthModal(false);
+            // переход на екран реєстрації
+          }}
+          onLogin={() => {
+            setShowAuthModal(false);
+            // переход на екран входу
+          }}
+        />
 
       </View>
     </KeyboardAvoidingView>

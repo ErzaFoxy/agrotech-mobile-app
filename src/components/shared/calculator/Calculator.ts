@@ -1,4 +1,4 @@
-import { cultureValuesByGroup, regionList } from "./СalculatorData";
+import { cultureValuesByGroup, regionList } from "./CalculatorData";
 
 /**
  * Вычисляет результат на основе культуры, группы региона, пользовательского ввода и режима.
