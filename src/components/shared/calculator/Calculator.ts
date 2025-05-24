@@ -31,5 +31,5 @@ export const calculateValue = (
     return null;
   }
 
-  return mode === "culture" ? x * userValue : x / userValue;
+  return mode === "culture" ? x * userValue : userValue / x;
 };

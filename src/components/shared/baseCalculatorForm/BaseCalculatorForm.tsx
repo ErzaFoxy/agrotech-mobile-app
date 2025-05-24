@@ -9,6 +9,7 @@ import {
   Keyboard
 } from 'react-native';
 
+import { useNavigation } from '../../../navigation/hooks';
 import { styles } from './BaseCalculatorForm.styles';
 import { SimpleDropDown } from '../simpleDropdown/SimpleDropdown';
 import { cultureList, regionList } from '../calculator/CalculatorData';
@@ -41,6 +42,8 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
 
+  const navigation = useNavigation();
+
   const handleSubmit = () => {
     const normalizedInput = inputValue.replace(/\s/g, '');
     const numericValue = parseFloat(normalizedInput);
@@ -67,37 +70,37 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
     }
   };
 
-const IconComponent = isSaved ? IconPlus : (calculatorResult && !error ? IconPlusActive : IconPlus);
-const { user } = useAuth();
-const { saveNote } = useSaveNote();
-const resetForm = () => {
-  setCalculatorResult(null);
-  setCulture('');
-  setRegion('');
-  setInputValue('');
-  setError('');
-};
+  const IconComponent = isSaved ? IconPlus : (calculatorResult && !error ? IconPlusActive : IconPlus);
+  const { user } = useAuth();
+  const { saveNote } = useSaveNote();
+  const resetForm = () => {
+    setCalculatorResult(null);
+    setCulture('');
+    setRegion('');
+    setInputValue('');
+    setError('');
+  };
 
-const handleAddToNotes = () => {
-  if (!calculatorResult || error) {
-    console.log('no calc result');
-    return;
-  }
+  const handleAddToNotes = () => {
+    if (!calculatorResult || error) {
+      console.log('no calc result');
+      return;
+    }
 
-  console.log('user from context:', user);
+    console.log('user from context:', user);
 
-  saveNote({
-    culture,
-    region,
-    inputValue,
-    result: calculatorResult.result,
-    mode,
-    resetForm,
-    setError,
-    setIsSaved,
-    openAuthModal: () => setShowAuthModal(true),
-  });
-};
+    saveNote({
+      culture,
+      region,
+      inputValue,
+      result: calculatorResult.result,
+      mode,
+      resetForm,
+      setError,
+      setIsSaved,
+      openAuthModal: () => setShowAuthModal(true),
+    });
+  };
 
   const getErrorStyle = (field: string) => !field && error ? styles.inputError : {};
 
@@ -159,7 +162,7 @@ const handleAddToNotes = () => {
             style={styles.noteButtonTouchable}
             disabled={isSaved}
           >
-            {calculatorResult  && !error && (<Text style={styles.noteHint}>
+            {calculatorResult && !error && (<Text style={styles.noteHint}>
               {isSaved ? ua.isSaved : ua.addNote}
             </Text>)}
             <IconComponent width={styles.noteButton.width} height={styles.noteButton.height} />
@@ -171,7 +174,7 @@ const handleAddToNotes = () => {
           onClose={() => setShowAuthModal(false)}
           onRegister={() => {
             setShowAuthModal(false);
-            // переход на екран реєстрації
+            navigation.navigate('Register');
           }}
           onLogin={() => {
             setShowAuthModal(false);

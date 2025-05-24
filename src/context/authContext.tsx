@@ -1,7 +1,7 @@
-
+// context/authContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getFirebaseAuth } from '../services/auth';
 import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from '../services/firebaseConfig';
 
 const AuthContext = createContext<{
   user: User | null;
@@ -13,17 +13,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const auth = getFirebaseAuth();
-    if (!auth) return;
-
-    // Подписка на изменения авторизации
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
       setLoading(false);
     });
 
-    // При размонтировании — отписываемся
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   return (
