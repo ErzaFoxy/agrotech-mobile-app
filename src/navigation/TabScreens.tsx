@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useWindowDimensions } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 
-import { LayoutWrapper } from '../components/layout/LayoutWrapper';
+import { LayoutWrapper } from '../components/layout/LayoutWrapper'
 import { Header } from '../components/header/Header';
 import { CultureScreen } from '../screens/CultureScreen';
 import { AreaScreen } from '../screens/AreaScreen';

@@ -1,15 +1,15 @@
 
 import React from 'react';
-import { RegisterForm } from '../components/registerForm/RegisterForm';
+import { ProfileForm } from '../components/profileForm/ProfileForm';
 import { LayoutWrapper } from '../components/layout/LayoutWrapper';
 import { Header } from '../components/header/Header';
 
 
-export const RegisterScreen: React.FC = () => {
+export const ProfileScreen: React.FC = () => {
   return (
     <LayoutWrapper>
       <Header onMenuPress={() => console.log('Menu')} />
-        <RegisterForm />
+        <ProfileForm />
     </LayoutWrapper>
   );
 };

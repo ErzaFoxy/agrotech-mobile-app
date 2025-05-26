@@ -1,0 +1,124 @@
+import { StyleSheet, Platform } from "react-native";
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 30,
+    paddingBottom: 40,
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    marginHorizontal: "auto",
+    marginBottom: 10,
+  },
+  nickname: {
+    textAlign: "center",
+    fontSize: 24,
+    fontWeight: 600,
+    color: "#fff",
+    marginBottom: 20,
+  },
+  label: {
+    color: "#fff",
+    fontSize: 15,
+    marginBottom: 15,
+    marginTop: 12,
+    fontWeight: 400,
+    textAlign: "center",
+  },
+  inputMock: {
+    backgroundColor: "#fff",
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: -4, height: 4 },
+    shadowOpacity: 0.32,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  inputText: {
+    fontSize: 16,
+    color: "#000",
+    textAlign: "center",
+  },
+  subscription: {
+    color: "#fff",
+    marginTop: 40,
+  },
+  noteButton: {
+    alignSelf: "flex-end",
+    marginTop: 20,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 4,
+  },
+  subscriptionBanner: {
+    marginTop: "auto",
+    backgroundColor: "rgba(104, 141, 125, 0.51)",
+    padding: 16,
+    borderRadius: 16,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    gap: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    ...(Platform.OS === "android"
+      ? {
+          borderWidth: 1,
+          borderColor: "rgba(104, 141, 125, 0.51)", // псевдо-стеклянная рамка
+        }
+      : {}),
+  },
+  bannerText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "500",
+    alignSelf: "flex-start",
+  },
+  iconSubscr: {
+    width: 33,
+    height: 33,
+  },
+
+  loggedOutContainer: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 24,
+  },
+  successMessage: {
+    fontSize: 24,
+    fontWeight: "600",
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 10,
+    marginTop: -50,
+  },
+  button: {
+    backgroundColor: "#F6C944",
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: -4, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
+  },
+});

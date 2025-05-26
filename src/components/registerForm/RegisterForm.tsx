@@ -11,6 +11,7 @@ import {
     Keyboard,
 } from 'react-native';
 
+import { useNavigation } from '../../navigation/hooks';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { styles } from './RegisterForm.styles';
@@ -26,6 +27,9 @@ export const RegisterForm: React.FC = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const navigation = useNavigation();
 
     const dateInputRef = useRef<DateInputRef>(null);
 
@@ -69,7 +73,11 @@ export const RegisterForm: React.FC = () => {
                 createdAt: new Date().toISOString(), // Фіксуємо дату реєстрації
             });
 
-            console.log(user);
+            setName('');
+            setEmail('');
+            setPassword('');
+            setBirthDate('');
+            setSuccess(true);
 
         } catch (err: any) {
             console.error('Registration error:', err);
@@ -86,65 +94,76 @@ export const RegisterForm: React.FC = () => {
     };
 
     return (
-        <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        >
-            <ScrollView
-                contentContainerStyle={{ flexGrow: 1 }}
-            >
-                <View style={styles.container}>
-                    <Text style={styles.label}>{ua.nameLabel}</Text>
-                    <TextInput style={[styles.input, getErrorStyle(name)]} value={name} onChangeText={setName} />
-
-                    <Text style={styles.label}>{ua.emailLabel}</Text>
-                    <TextInput
-                        style={[styles.input, getErrorStyle(email)]}
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                    />
-
-                    <Text style={styles.label}>{ua.birthDateLabel}</Text>
-                    <DateInput
-                        ref={dateInputRef}
-                        value={birthDate}
-                        onChange={setBirthDate}
-                        setError={setError}
-                        inputStyle={[
-                            styles.input,
-                            error === ua.invalidDate ? styles.inputError : {},
-                        ]}
-                    />
-
-                    <Text style={styles.label}>{ua.passwordLabel}</Text>
-                    <View style={styles.passwordWrapper}>
-                        <TextInput
-                            style={[styles.input, getErrorStyle(password)]}
-                            value={password}
-                            onChangeText={setPassword}
-                            secureTextEntry={!showPassword}
-                        />
-                        <TouchableOpacity onPress={() => setShowPassword(prev => !prev)} style={styles.eyeButton}>
-                            <Text>{showPassword ? '🙈' : '👁️'}</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {error ? <Text style={styles.error}>{error}</Text> : null}
-
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => {
-                            Keyboard.dismiss();
-                            handleRegister();
-                        }}
-                        disabled={loading}
-                    >
-                        {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{ua.registerBtn}</Text>}
+        <View style={{ flex: 1 }}>
+            {success ? (
+                <View>
+                    <Text style={styles.successMessage}>{ua.registrationSuccess}</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                        <Text style={styles.buttonText}>{ua.goToProfile}</Text>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+            ) : (
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                >
+                    <ScrollView
+                        contentContainerStyle={{ flexGrow: 1 }}
+                    >
+                        <View style={styles.container}>
+                            <Text style={styles.label}>{ua.nameLabel}</Text>
+                            <TextInput style={[styles.input, getErrorStyle(name)]} value={name} onChangeText={setName} />
+
+                            <Text style={styles.label}>{ua.emailLabel}</Text>
+                            <TextInput
+                                style={[styles.input, getErrorStyle(email)]}
+                                value={email}
+                                onChangeText={setEmail}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                            />
+
+                            <Text style={styles.label}>{ua.birthDateLabel}</Text>
+                            <DateInput
+                                ref={dateInputRef}
+                                value={birthDate}
+                                onChange={setBirthDate}
+                                setError={setError}
+                                inputStyle={[
+                                    styles.input,
+                                    error === ua.invalidDate ? styles.inputError : {},
+                                ]}
+                            />
+
+                            <Text style={styles.label}>{ua.passwordLabel}</Text>
+                            <View style={styles.passwordWrapper}>
+                                <TextInput
+                                    style={[styles.input, getErrorStyle(password)]}
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    secureTextEntry={!showPassword}
+                                />
+                                <TouchableOpacity onPress={() => setShowPassword(prev => !prev)} style={styles.eyeButton}>
+                                    <Text>{showPassword ? '🙈' : '👁️'}</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            {error ? <Text style={styles.error}>{error}</Text> : null}
+
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={() => {
+                                    Keyboard.dismiss();
+                                    handleRegister();
+                                }}
+                                disabled={loading}
+                            >
+                                {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{ua.registerBtn}</Text>}
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+            )}
+        </View>
     );
 };

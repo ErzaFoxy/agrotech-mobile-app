@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -41,7 +41,6 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
   } | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-
   const navigation = useNavigation();
 
   const handleSubmit = () => {
@@ -72,7 +71,7 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
 
   const IconComponent = isSaved ? IconPlus : (calculatorResult && !error ? IconPlusActive : IconPlus);
   const { user } = useAuth();
-  const { saveNote } = useSaveNote();
+  const { saveNote, cancelNoteTimeout } = useSaveNote();
   const resetForm = () => {
     setCalculatorResult(null);
     setCulture('');
@@ -101,6 +100,12 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
       openAuthModal: () => setShowAuthModal(true),
     });
   };
+
+  useEffect(() => {
+    return () => {
+      cancelNoteTimeout();
+    };
+  }, []);
 
   const getErrorStyle = (field: string) => !field && error ? styles.inputError : {};
 

@@ -2,7 +2,7 @@ import { StyleSheet, Platform } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(104, 141, 125, 0.51)',
+    backgroundColor: "rgba(104, 141, 125, 0.51)",
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 20,
@@ -13,10 +13,12 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 8,
-    ...(Platform.OS === 'android' ? {
-      borderWidth: 1,
-      borderColor: 'rgba(104, 141, 125, 0.51)', // псевдо-стеклянная рамка
-    } : {}),
+    ...(Platform.OS === "android"
+      ? {
+          borderWidth: 1,
+          borderColor: "rgba(104, 141, 125, 0.51)", // псевдо-стеклянная рамка
+        }
+      : {}),
   },
   label: {
     fontSize: 15,
@@ -36,7 +38,7 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: -4, height: 4 },
     shadowOpacity: 0.32,
     shadowRadius: 4,
-    elevation: 4, 
+    elevation: 4,
   },
   button: {
     backgroundColor: "#F6C944",
@@ -72,5 +74,12 @@ export const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 12,
+  },
+  successMessage: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#4CAF50",
+    textAlign: "center",
+    marginVertical: 20,
   },
 });

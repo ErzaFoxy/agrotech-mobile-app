@@ -2,6 +2,7 @@
 import { useAuth } from '../context/authContext';
 import { saveNoteToFirestore } from '../services/notes';
 import { formCultureUA as ua } from '../translations';
+import { useNavigation } from '../navigation/hooks';
 
 interface Params {
   culture: string;
@@ -15,8 +16,12 @@ interface Params {
   openAuthModal: () => void;
 }
 
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
 export const useSaveNote = () => {
   const { user } = useAuth();
+
+  const navigation = useNavigation();
 
   const saveNote = async ({
     culture,
@@ -30,7 +35,6 @@ export const useSaveNote = () => {
     openAuthModal
   }: Params) => {
     if (!user) {
-      console.log('🔒 Not authorized');
       openAuthModal();
       return;
     }
@@ -46,9 +50,10 @@ export const useSaveNote = () => {
       });
 
       setIsSaved(true);
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         resetForm();
         setIsSaved(false);
+        navigation.navigate('Profile');
       }, 3000);
     } catch (error) {
       console.error('🔥 ERROR in Firestore save:', error);
@@ -56,5 +61,5 @@ export const useSaveNote = () => {
     }
   };
 
-  return { saveNote };
+  return { saveNote, cancelNoteTimeout: () => timeoutId && clearTimeout(timeoutId)  };
 };
