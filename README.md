@@ -34,14 +34,10 @@ view weather data for specific locations, and save notes about planting strategi
 
 ## 📷 Screenshots
 
-#### Home
-![Home](./assets/screenshots/home.png)
+| Home Screen | Calculator | Weather |
+|-------------|------------|---------|
+| ![Home](./assets/screenshots/home.png) | ![Calculator](./assets/screenshots/calculator.png) | ![Weather](./assets/screenshots/weather.png) |
 
-#### Calculator
-![Calculator](./assets/screenshots/calculator.png)
-
-#### Weather
-![Weather](./assets/screenshots/weather.png)
 
 ---
 
