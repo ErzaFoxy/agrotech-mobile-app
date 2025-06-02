@@ -21,7 +21,7 @@ export const WeatherMap = () => {
     const lastClickTimeRef = useRef<number | null>(null);
 
     const handleMapPress = async (e: MapPressEvent) => {
-        console.log('Map pressed:', e.nativeEvent.coordinate);
+
         const now = Date.now();
         if (lastClickTimeRef.current && now - lastClickTimeRef.current < 35000) {
             setWeatherError(ua.errorFastTxt);
