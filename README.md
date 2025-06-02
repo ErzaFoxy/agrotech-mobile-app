@@ -46,7 +46,7 @@ view weather data for specific locations, and save notes about planting strategi
 1. Clone the repo
 2. Run `npm install`
 3. Create `.env` file in root with the following:
-
+```
 OPENWEATHER_API_KEY=your_key_here
 FIREBASE_API_KEY=your_key_here
 FIREBASE_AUTH_DOMAIN=your_key_here
@@ -56,6 +56,7 @@ FIREBASE_MESSAGING_SENDER_ID=your_key_here
 FIREBASE_APP_ID=your_key_here
 FIREBASE_MEASUREMENT_ID=your_key_here
 GOOGLE_API_KEY=your_key_here
+```
 
 4. Install Expo CLI (if not installed): `npm install -g expo-cli`
 5. Install Expo Go on your phone
