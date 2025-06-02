@@ -5,6 +5,7 @@ import { NavigationContainer, useNavigationContainerRef } from '@react-navigatio
 import { TabScreens } from './TabScreens';
 import { RegisterScreen } from '../screens/RegisterScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
+import { LoginScreen } from '../screens/LoginScreen';
 
 import { useGlobalLoader } from '../context/globalLoaderContext';
 
@@ -36,13 +37,14 @@ export const AppNavigator = () => {
         // Завершение перехода после небольшой паузы
         timeoutRef.current = setTimeout(() => {
           endTransition();
-        }, 300); 
+        }, 1500); 
       }}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Tabs" component={TabScreens} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

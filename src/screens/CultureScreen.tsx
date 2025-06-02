@@ -1,22 +1,14 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 
 import { CultureForm } from "../components/cultureForm/CultureForm";
 
 export const CultureScreen = () => {
 
     return (
-        <View style={styles.container}>
+        <View style={{flex: 1}}>
             <CultureForm/>
         </View>
     )
 
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-    },
-});

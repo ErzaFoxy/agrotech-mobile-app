@@ -2,5 +2,5 @@ import { BaseCalculatorForm } from '../shared/baseCalculatorForm/BaseCalculatorF
 import { formCultureUA as ua } from '../../translations';
 
 export const CultureForm = () => {
-  return <BaseCalculatorForm mode="culture" label={ua.inputQuantCulturLabel} />;
+  return <BaseCalculatorForm title={ua.titleLabel} mode="culture" label={ua.inputQuantCulturLabel} />;
 };

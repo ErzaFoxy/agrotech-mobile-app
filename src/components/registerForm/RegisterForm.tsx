@@ -5,8 +5,6 @@ import {
     TextInput,
     TouchableOpacity,
     ActivityIndicator,
-    KeyboardAvoidingView,
-    Platform,
     ScrollView,
     Keyboard,
 } from 'react-native';
@@ -18,6 +16,7 @@ import { styles } from './RegisterForm.styles';
 import { auth, db } from '../../services/firebaseConfig';
 import { formAuthUA as ua } from '../../translations';
 import { DateInput, DateInputRef } from './DateInput';
+import { KeyboardDismissWrapper } from "../shared/KeyboardDismissWrapper/KeyboardDismissWrapper";
 
 export const RegisterForm: React.FC = () => {
     const [name, setName] = useState('');
@@ -103,10 +102,7 @@ export const RegisterForm: React.FC = () => {
                     </TouchableOpacity>
                 </View>
             ) : (
-                <KeyboardAvoidingView
-                    style={{ flex: 1 }}
-                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                >
+                <KeyboardDismissWrapper>
                     <ScrollView
                         contentContainerStyle={{ flexGrow: 1 }}
                     >
@@ -161,9 +157,20 @@ export const RegisterForm: React.FC = () => {
                                 {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{ua.registerBtn}</Text>}
                             </TouchableOpacity>
                         </View>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Login')}
+                            style={styles.loginLinkContainer}
+                        >
+                            <Text style={styles.loginLinkWrapper}>
+                                {ua.haveAccount}{' '}
+                                <Text style={styles.loginLink}>{ua.loginLink}</Text>
+                            </Text>
+                        </TouchableOpacity>
                     </ScrollView>
-                </KeyboardAvoidingView>
+
+                </KeyboardDismissWrapper>
             )}
+
         </View>
     );
 };

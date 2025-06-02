@@ -4,12 +4,7 @@ export const styles = StyleSheet.create({
 container: {
     flex: 1,
     backgroundColor: 'transparent',
-    paddingTop: 0,
-  },
-  innerWrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    position: 'relative',
+    padding: 0,
   },
     mainBackground: {
     flex: 1

@@ -1,8 +1,8 @@
 
 import { useAuth } from '../context/authContext';
+import { useNoteRefresh } from '../context/noteRefreshContext';
 import { saveNoteToFirestore } from '../services/notes';
 import { formCultureUA as ua } from '../translations';
-import { useNavigation } from '../navigation/hooks';
 
 interface Params {
   culture: string;
@@ -20,8 +20,7 @@ let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
 export const useSaveNote = () => {
   const { user } = useAuth();
-
-  const navigation = useNavigation();
+  const { refreshNotes } = useNoteRefresh();
 
   const saveNote = async ({
     culture,
@@ -48,13 +47,13 @@ export const useSaveNote = () => {
         mode,
         userId: user.uid,
       });
+      refreshNotes(); // после успешного сохранения — обновляем список
 
       setIsSaved(true);
       timeoutId = setTimeout(() => {
         resetForm();
         setIsSaved(false);
-        navigation.navigate('Profile');
-      }, 3000);
+      }, 2200);
     } catch (error) {
       console.error('🔥 ERROR in Firestore save:', error);
       setError(ua.savedError);

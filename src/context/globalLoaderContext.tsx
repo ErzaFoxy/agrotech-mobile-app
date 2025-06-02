@@ -1,4 +1,4 @@
-// context/globalLoaderContext.tsx
+
 import React, { createContext, useContext, useState } from 'react';
 
 interface GlobalLoaderContextType {

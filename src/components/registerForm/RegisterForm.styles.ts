@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     elevation: 4,
   },
   button: {
-    backgroundColor: "#F6C944",
+    backgroundColor: "#E6CE38",
     paddingVertical: 12,
     borderRadius: 12,
     alignItems: "center",
@@ -81,5 +81,18 @@ export const styles = StyleSheet.create({
     color: "#4CAF50",
     textAlign: "center",
     marginVertical: 20,
+  },
+  loginLinkContainer: {
+    marginTop: 40,
+    alignSelf: "center",
+  },
+  loginLinkWrapper: {
+    color: "#fff",
+    fontSize: 15,
+  },
+  loginLink: {
+    textDecorationLine: "underline",
+    color: "#fff",
+    fontWeight: "600",
   },
 });

@@ -30,6 +30,8 @@ export const styles = StyleSheet.create({
   },
   inputMock: {
     backgroundColor: "#fff",
+    width: '90%',
+    alignSelf: 'center',
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 8,
@@ -39,8 +41,6 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.32,
     shadowRadius: 4,
     elevation: 4,
-  },
-  inputText: {
     fontSize: 16,
     color: "#000",
     textAlign: "center",
@@ -74,13 +74,13 @@ export const styles = StyleSheet.create({
     ...(Platform.OS === "android"
       ? {
           borderWidth: 1,
-          borderColor: "rgba(104, 141, 125, 0.51)", // псевдо-стеклянная рамка
+          borderColor: "rgba(104, 141, 125, 0.51)",
         }
       : {}),
   },
   bannerText: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "500",
     alignSelf: "flex-start",
   },
@@ -103,7 +103,9 @@ export const styles = StyleSheet.create({
     marginTop: -50,
   },
   button: {
-    backgroundColor: "#F6C944",
+    backgroundColor: "#E6CE38",
+    width: '90%',
+    alignSelf: 'center',
     paddingVertical: 10,
     paddingHorizontal: 24,
     borderRadius: 20,

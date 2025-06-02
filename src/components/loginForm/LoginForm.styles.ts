@@ -1,0 +1,115 @@
+import { StyleSheet, Platform } from "react-native";
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(230, 206, 56, 0.01)'
+  },
+  containerForm: {
+    width: "80%",
+    backgroundColor: "rgba(104, 141, 125, 0.51)",
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 30,
+    marginBottom: 20,
+    marginTop: "-10%",
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    ...(Platform.OS === "android"
+      ? {
+          borderWidth: 1,
+          borderColor: "rgba(104, 141, 125, 0.51)",
+        }
+      : {}),
+  },
+  secondaryButton: {
+    marginTop: 16,
+    backgroundColor: "#E6CE38",
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: -4, height: 4 },
+    shadowOpacity: 0.32,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  secondaryButtonText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#fff",
+    textDecorationLine: "underline",
+  },
+  secondaryButtonRegister: {
+    marginTop: 80,
+  },
+  label: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#fff",
+    marginBottom: 7,
+    marginTop: 12,
+    textAlign: "center",
+  },
+  input: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: -4, height: 4 },
+    shadowOpacity: 0.32,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  inputError: {
+    borderColor: "red",
+    borderWidth: 1,
+  },
+  passwordWrapper: {
+    position: "relative",
+    width: "100%",
+  },
+  eyeButton: {
+    position: "absolute",
+    right: 10,
+    top: 12,
+  },
+  error: {
+    color: "#ff4444",
+    textAlign: "center",
+    marginTop: 8,
+  },
+  button: {
+    backgroundColor: "#E6CE38",
+    paddingVertical: 10,
+    borderRadius: 15,
+    alignItems: "center",
+    marginTop: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: -4, height: 4 },
+    shadowOpacity: 0.32,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  successMessage: {
+    color: "#4CAF50",
+    textAlign: "center",
+    marginTop: 10,
+    fontWeight: "600",
+    fontSize: 15,
+  },
+});

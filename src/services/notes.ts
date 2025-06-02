@@ -1,9 +1,9 @@
-import { db } from './firebaseConfig';
-import { collection, getDocs, query, where, addDoc, Timestamp } from 'firebase/firestore';
 
-//
+import { collection, getDocs, query, where, addDoc, Timestamp, orderBy } from 'firebase/firestore';
+
+import { db } from './firebaseConfig';
+
 // Дані, які ми передаємо при створенні нотатки
-//
 export interface NotePayload {
   culture: string;
   region: string;
@@ -13,17 +13,13 @@ export interface NotePayload {
   userId: string;
 }
 
-//
 // Дані, які ми отримуємо з Firestore
-//
 export interface Note extends NotePayload {
   id: string;
   createdAt: string; // у форматі дд.мм.рррр
 }
 
-//
 // Збереження нотатки в Firestore
-//
 export const saveNoteToFirestore = async (payload: NotePayload) => {
 
   await addDoc(collection(db, 'notes'), {
@@ -32,15 +28,14 @@ export const saveNoteToFirestore = async (payload: NotePayload) => {
   });
 };
 
-//
 // Отримання нотаток для поточного користувача
-//
 export const getUserNotes = async (userId: string): Promise<Note[]> => {
 
 
   const q = query(
     collection(db, 'notes'),
-    where('userId', '==', userId)
+    where('userId', '==', userId),
+    orderBy('createdAt', 'desc')
   );
 
   const snapshot = await getDocs(q);

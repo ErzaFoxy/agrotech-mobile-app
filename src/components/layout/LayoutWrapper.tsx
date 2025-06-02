@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Header } from '../header/Header';
 import { useGlobalLoader } from '../../context/globalLoaderContext';
 import { styles } from './LayoutWrapper.styles';
 
 interface Props {
   children: React.ReactNode;
+  currentTab?: number;
+  setTabIndex?: (index: number) => void;
 }
 
-export const LayoutWrapper: React.FC<Props> = ({ children }) => {
+export const LayoutWrapper: React.FC<Props> = ({ children, currentTab = 0, setTabIndex = () => {} }) => {
   const [isImageLoaded, setImageLoaded] = useState(false);
   const { endTransition } = useGlobalLoader();
 
@@ -26,6 +29,7 @@ export const LayoutWrapper: React.FC<Props> = ({ children }) => {
         resizeMode="cover"
         onLoadEnd={handleImageLoad}
       >
+        <Header currentTab={currentTab} setTabIndex={setTabIndex} />
         {isImageLoaded && children}
       </ImageBackground>
     </SafeAreaView>

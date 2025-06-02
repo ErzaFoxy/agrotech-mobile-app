@@ -7,8 +7,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DropDownOverlayManagerProvider } from './components/shared/dropDownOverlayManager/DropDownOverlayManager';
 import { AppNavigator } from './navigation/AppNavigator';
 import { AuthProvider } from './context/authContext';
-import { KeyboardDismissWrapper } from './components/shared/KeyboardDismissWrapper/KeyboardDismissWrapper';
 import { AppInitializer } from './AppInitializer';
+import { NoteRefreshProvider } from './context/noteRefreshContext';
 
 
 const AppContent = () => {
@@ -17,15 +17,15 @@ const AppContent = () => {
   return (
     <>
       <GlobalLoader visible={isTransitioning} />
-      <KeyboardDismissWrapper>
-        <DropDownOverlayManagerProvider>
-          <SafeAreaProvider>
-            <AuthProvider>
+      <DropDownOverlayManagerProvider>
+        <SafeAreaProvider>
+          <AuthProvider>
+            <NoteRefreshProvider>
               <AppNavigator />
-            </AuthProvider>
-          </SafeAreaProvider>
-        </DropDownOverlayManagerProvider>
-      </KeyboardDismissWrapper>
+            </NoteRefreshProvider>
+          </AuthProvider>
+        </SafeAreaProvider>
+      </DropDownOverlayManagerProvider>
     </>
   );
 };

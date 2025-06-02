@@ -18,8 +18,4 @@ export const styles = StyleSheet.create({
       width: screenWidth * 0.8,
       height: screenWidth * 0.8 / 4.08
     },
-    menu: {
-      width: screenWidth * 0.11,
-      height: screenWidth * 0.11 / 0.933
-    },
   });

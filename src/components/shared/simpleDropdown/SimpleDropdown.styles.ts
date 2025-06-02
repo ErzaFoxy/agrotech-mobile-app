@@ -13,20 +13,21 @@ export const styles = StyleSheet.create({
   },
   label: {
     color: '#fff',
-    marginBottom: 13,
+    marginBottom: 10,
     fontSize: 15,
     textAlign: 'center',
   },
   input: {
     backgroundColor: 'rgba(230, 206, 56, 0.9)',
     borderRadius: 20,
-    paddingVertical: 12,
+    paddingVertical: 10,
     paddingHorizontal: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 4, // нужно для Android
+    marginBottom: 10,
   },
   inputError: {
     borderWidth: 1,

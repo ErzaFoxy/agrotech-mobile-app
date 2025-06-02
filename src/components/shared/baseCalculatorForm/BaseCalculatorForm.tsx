@@ -4,9 +4,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard
+  Keyboard,
+  ScrollView
 } from 'react-native';
 
 import { useNavigation } from '../../../navigation/hooks';
@@ -16,30 +15,34 @@ import { cultureList, regionList } from '../calculator/CalculatorData';
 import { calculateValue } from '../calculator/Calculator';
 import { formCultureUA as ua } from '../../../translations';
 import { CalculationResultCard } from "../calculationResultCard/CalculationResultCard";
-import { useAuth } from '../../../context/authContext';
 import { AuthPromptModal } from '../../modals/AuthPromptModal'
 import { useSaveNote } from '../../../hooks/useSaveNote';
+import { KeyboardDismissWrapper } from "../KeyboardDismissWrapper/KeyboardDismissWrapper";
+import { RecommendationPanel } from "../recommendationPanel/RecommendationPanel";
 
 import IconPlus from "../../../../assets/plus-notes.svg";
 import IconPlusActive from "../../../../assets/plus-notes-active.svg";
 
 interface Props {
+  title: string;
   mode: 'area' | 'culture';
   label: string;
 }
 
-export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
+export const BaseCalculatorForm: React.FC<Props> = ({ title, mode, label }) => {
   const [culture, setCulture] = useState('');
   const [region, setRegion] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState('');
   const [isSaved, setIsSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [calculatorResult, setCalculatorResult] = useState<{
     inputValue: string;
     result: number;
     culture: string;
   } | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [textNote, setTextNote] = useState('');
 
   const navigation = useNavigation();
 
@@ -65,12 +68,12 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
           result,
           culture,
         });
+        setTextNote(ua.addNote);
       }
     }
   };
 
   const IconComponent = isSaved ? IconPlus : (calculatorResult && !error ? IconPlusActive : IconPlus);
-  const { user } = useAuth();
   const { saveNote, cancelNoteTimeout } = useSaveNote();
   const resetForm = () => {
     setCalculatorResult(null);
@@ -78,15 +81,19 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
     setRegion('');
     setInputValue('');
     setError('');
+    setTextNote('');
   };
 
   const handleAddToNotes = () => {
+    if (isSaving) return; // уже сохраняем — игнорируем повторный клик
+
     if (!calculatorResult || error) {
       console.log('no calc result');
+      setTextNote(ua.doCalc);
       return;
     }
 
-    console.log('user from context:', user);
+    setIsSaving(true);
 
     saveNote({
       culture,
@@ -94,16 +101,23 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
       inputValue,
       result: calculatorResult.result,
       mode,
-      resetForm,
+      resetForm: () => {
+        resetForm();
+        setIsSaving(false); // сброс после очистки формы
+      },
       setError,
       setIsSaved,
-      openAuthModal: () => setShowAuthModal(true),
+      openAuthModal: () => {
+        setIsSaving(false); // в случае, если неавторизован
+        setShowAuthModal(true);
+      },
     });
   };
 
   useEffect(() => {
     return () => {
       cancelNoteTimeout();
+      setIsSaving(false);
     };
   }, []);
 
@@ -111,10 +125,19 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
 
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Text style={styles.title}>{ua.titleLabel}</Text>
 
+
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 32 }}
+        
+        showsVerticalScrollIndicator={true}
+        persistentScrollbar
+        scrollEnabled
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
+      <KeyboardDismissWrapper>
         <SimpleDropDown
           label={ua.cultureLabel}
           value={culture}
@@ -150,6 +173,7 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
         >
           <Text style={styles.buttonText}>{ua.resultBtn}</Text>
         </TouchableOpacity>
+      </KeyboardDismissWrapper>
 
         {error ? <Text style={styles.errorText}>{error}</Text> :
           (calculatorResult ?
@@ -165,29 +189,32 @@ export const BaseCalculatorForm: React.FC<Props> = ({ mode, label }) => {
           <TouchableOpacity
             onPress={handleAddToNotes}
             style={styles.noteButtonTouchable}
-            disabled={isSaved}
+            disabled={isSaved || isSaving}
           >
-            {calculatorResult && !error && (<Text style={styles.noteHint}>
-              {isSaved ? ua.isSaved : ua.addNote}
-            </Text>)}
+            <Text style={styles.noteHint}>
+              {isSaved ? ua.isSaved : textNote}
+            </Text>
             <IconComponent width={styles.noteButton.width} height={styles.noteButton.height} />
           </TouchableOpacity>
         </View>
+</View>
+        <RecommendationPanel />
+      
+      
+      <AuthPromptModal
+        isVisible={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onRegister={() => {
+          setShowAuthModal(false);
+          navigation.navigate('Register');
+        }}
+        onLogin={() => {
+          setShowAuthModal(false);
+          navigation.navigate('Login');
+        }}
+      />
+      
+    </ScrollView>
 
-        <AuthPromptModal
-          isVisible={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-          onRegister={() => {
-            setShowAuthModal(false);
-            navigation.navigate('Register');
-          }}
-          onLogin={() => {
-            setShowAuthModal(false);
-            // переход на екран входу
-          }}
-        />
-
-      </View>
-    </KeyboardAvoidingView>
   );
 };

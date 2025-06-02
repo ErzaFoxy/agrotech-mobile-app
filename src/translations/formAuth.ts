@@ -13,6 +13,8 @@ export const formAuthUA = {
   authNotInitialized: "Щось пішло не так. Спробуйте ще раз пізніше",
   invalidEmail: "Будь ласка, введіть вірний email",
   invalidDate: "Невірна дата",
+  haveAccount: "Вже маєте акаунт?",
+  loginLink: "Увійти",
 
   registrationSuccess: "Вітаємо, ви зареєструвались!",
   goToProfile: "Перейти до кабінету",
@@ -23,4 +25,13 @@ export const formAuthUA = {
   loggedOutSuccess: "Ви вийшли з акаунта",
   toHomeBtn: "На головну",
   logoutBtn: "Вийти з акаунту",
+
+  forgotPassword: "Забули пароль?",
+  goToRegister: "Зареєструватись",
+  loginError: "Не вдалося увійти. Перевірте логін і пароль",
+  sendInstructions: "Надіслати",
+  forgotPasswordInstructions:
+    "Інструкції для відновлення пароля надіслано на ваш email.",
+  resetPasswordError: "Не вдалося надіслати інструкції. Спробуйте пізніше.",
+  backToLogin: "← Назад до входу",
 };

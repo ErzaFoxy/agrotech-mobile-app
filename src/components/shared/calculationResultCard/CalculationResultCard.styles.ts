@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(104, 141, 125, 0.61)', // напівпрозорий фон
     padding: 12,
     borderRadius: 10,
-    marginTop: 23
+    marginTop: 15
   },
   text: {
     color: '#fff',

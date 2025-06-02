@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { signOut } from 'firebase/auth';
-
 
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../../services/firebaseConfig';
@@ -9,6 +8,8 @@ import { useAuth } from '../../context/authContext';
 import { formAuthUA as ua } from '../../translations';
 import { useNavigation } from '../../navigation/hooks';
 import { styles } from './ProfileForm.styles'
+import { setPendingTabIndex } from '../../services/tabNavigation';
+
 import IconSubscr from "../../../assets/icon-subscribe-1.svg";
 import IconPlusActive from "../../../assets/plus-notes-active.svg";
 import IconUser from "../../../assets/user-icon-1.svg";
@@ -70,10 +71,28 @@ export const ProfileForm: React.FC = () => {
             <Text style={styles.nickname}>{userData.name || 'AgroTech User'}</Text>
 
             <Text style={styles.label}>{ua.loginLabel}</Text>
-            <View style={styles.inputMock}><Text style={styles.inputText}>{userData.email}</Text></View>
+            <TextInput
+                value={userData.email}
+                editable={false}
+                style={styles.inputMock}
+                multiline={false}
+                scrollEnabled={true}
+                textAlignVertical="center"
+                numberOfLines={1}
+                selectionColor="transparent"
+            />
 
             <Text style={styles.label}>{ua.birthDateLabel}</Text>
-            <View style={styles.inputMock}><Text style={styles.inputText}>{userData.birthDate}</Text></View>
+            <TextInput
+                value={userData.birthDate}
+                editable={false}
+                style={styles.inputMock}
+                multiline={false}
+                scrollEnabled={true}
+                textAlignVertical="center"
+                numberOfLines={1}
+                selectionColor="transparent"
+            />
 
             <TouchableOpacity style={styles.button} onPress={handleLogout}>
                 <Text style={styles.buttonText}>{ua.logoutBtn}</Text>
@@ -81,12 +100,18 @@ export const ProfileForm: React.FC = () => {
 
             <Text style={styles.subscription}>{ua.subscriptionText}</Text>
 
-            <TouchableOpacity style={styles.noteButton}>
+            <TouchableOpacity
+                style={styles.noteButton}
+                onPress={() => {
+                    setPendingTabIndex(2);
+                    navigation.navigate('Tabs');
+                }}
+            >
                 <IconPlusActive width={styles.noteButton.width} height={styles.noteButton.height} />
             </TouchableOpacity>
 
 
-            {/* () => navigation.navigate('NotesScreen')   navigation.navigate('SubscriptionScreen') */}
+            {/*  navigation.navigate('SubscriptionScreen') */}
             <TouchableOpacity style={styles.subscriptionBanner}>
                 <Text style={styles.bannerText}>{ua.subscriptionBannerText}</Text>
                 <IconSubscr width={styles.iconSubscr.width} height={styles.iconSubscr.height} />

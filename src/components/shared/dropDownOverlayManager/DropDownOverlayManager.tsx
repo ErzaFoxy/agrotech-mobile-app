@@ -11,7 +11,7 @@ import {
   Platform
 } from 'react-native';
 import { Portal } from 'react-native-portalize';
-import { styles } from './DropDownOverlayManager.style';
+import { baseStyles, getDropdownStyles } from './DropDownOverlayManager.style';
 
 interface Option {
   label: string;
@@ -23,6 +23,8 @@ interface DropdownState {
   value: string;
   setValue: (val: string) => void;
   triggerLayout: LayoutRectangle;
+  onClose?: () => void;
+  variant?: 'default' | 'menu';
 }
 
 interface DropdownContextProps {
@@ -42,12 +44,16 @@ type Props = {
 };
 export const DropDownOverlayManagerProvider: React.FC<Props> = ({ children }) => {
   const [dropdownState, setDropdownState] = useState<DropdownState | null>(null);
-
+  const stylesVariant = getDropdownStyles(dropdownState?.variant ?? 'default');
+  
   const showDropdown = (state: DropdownState) => {
     setDropdownState(state);
   };
 
   const hideDropdown = () => {
+    if (dropdownState?.onClose) {
+      dropdownState.onClose();
+    }
     setDropdownState(null);
   };
 
@@ -66,7 +72,7 @@ export const DropDownOverlayManagerProvider: React.FC<Props> = ({ children }) =>
     }, { label: '', value: '' });
 
     const approxCharWidth = 11;
-    const padding = 20;
+    const padding = dropdownState.variant === 'menu' ? 0 : 20;
     const width = longestLabel.label.length * approxCharWidth + padding;
 
     return Math.ceil(width);
@@ -81,19 +87,25 @@ export const DropDownOverlayManagerProvider: React.FC<Props> = ({ children }) =>
 
       <Portal>
         {dropdownState && (
-          <Pressable style={styles.overlay} onPress={hideDropdown}>
+          <Pressable style={baseStyles.overlay} onPress={hideDropdown}>
             <View
               style={[
-                styles.dropdown,
+                stylesVariant.dropdown,
                 {
-                  top:
+                  top: dropdownState.variant === 'menu'
+                    ? dropdownState.triggerLayout.y +
+                    dropdownState.triggerLayout.height -
+                    (Platform.OS === 'android' ? 20 : 50)
+                    :
                     dropdownState.triggerLayout.y +
                     dropdownState.triggerLayout.height -
                     (Platform.OS === 'android' ? -15 : 20),
-                  left: Math.min(
-                    screenWidth - calculatedDropdownWidth - 10,
-                    dropdownState.triggerLayout.x + offsetX
-                  ),
+                  left: dropdownState.variant === 'menu'
+                    ? Math.min(screenWidth - calculatedDropdownWidth - 55)
+                    : Math.min(
+                      screenWidth - calculatedDropdownWidth - 10,
+                      dropdownState.triggerLayout.x + offsetX
+                    ),
                   width: calculatedDropdownWidth,
                 },
               ]}
@@ -103,14 +115,14 @@ export const DropDownOverlayManagerProvider: React.FC<Props> = ({ children }) =>
                 keyExtractor={(item) => item.value}
                 renderItem={({ item }) => (
                   <TouchableOpacity
-                    style={styles.item}
+                    style={stylesVariant.item}
                     onPress={() => handleSelect(item.value)}
                   >
                     <Text
                       numberOfLines={1}
                       style={[
-                        styles.itemText,
-                        item.value === dropdownState.value && styles.selectedItemText,
+                        stylesVariant.itemText,
+                        item.value === dropdownState.value && stylesVariant.selectedItemText,
                       ]}
                     >
                       {item.label}
@@ -125,3 +137,5 @@ export const DropDownOverlayManagerProvider: React.FC<Props> = ({ children }) =>
     </DropDownOverlayContext.Provider>
   );
 };
+
+

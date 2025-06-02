@@ -1,22 +1,14 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 
 import { AreaForm } from "../components/areaForm/AreaForm";
 
 export const AreaScreen = () => {
 
     return (
-        <View style={styles.container}>
+         <View style={{flex: 1}}>
             <AreaForm/>
         </View>
     )
 
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-    },
-});

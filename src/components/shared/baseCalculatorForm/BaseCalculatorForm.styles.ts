@@ -2,12 +2,14 @@ import { StyleSheet, Platform } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    gap: 10,
+    flex: 1,
+    paddingHorizontal: 25,
+    paddingTop: '10%',
+    backgroundColor: 'rgba(230, 206, 56, 0.01)'
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
+    marginBottom: 15,
     fontWeight: '600',
     textAlign: 'center',
     color: '#fff',
@@ -15,7 +17,7 @@ export const styles = StyleSheet.create({
   input: {
     backgroundColor: 'rgba(230, 206, 56, 0.9)',
     borderRadius: 20,
-    padding: 12,
+    padding: 10,
     fontSize: 16,
     textAlign: 'center',
     shadowColor: '#000',
@@ -23,15 +25,15 @@ export const styles = StyleSheet.create({
     shadowOpacity: Platform.OS === 'ios' ? 0.4 : 0.25,
     shadowRadius: 12,
     elevation: Platform.OS === 'android' ? 6 : 0,
-    margin: 0,
+    marginBottom: 10,
   },
   button: {
     backgroundColor: '#E6CE38',
     borderRadius: 20,
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingVertical: 10,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 15,
   },
   buttonText: {
     color: '#fff',
@@ -52,6 +54,7 @@ export const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 15,
     textAlign: 'center',
+    marginBottom: 10,
   },
   resultText: {
     color: '#fff',
@@ -64,7 +67,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    marginTop: 12,
+    marginTop: 15,
+    marginBottom: 40,
     gap: 8
   },
   noteButton: {
@@ -86,7 +90,7 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: '#fff',
-    marginTop: 40,
-    marginBottom: 20
+    marginTop: 50,
+    marginBottom: 10
   },
 });
