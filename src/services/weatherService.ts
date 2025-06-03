@@ -12,16 +12,19 @@ export const getWeatherByCoords = async (lat: number, lon: number) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(
-        `❌ OpenWeatherMap HTTP error [${response.status}]: ${errorText}`
-      );
-      throw new Error("Не вдалося отримати погоду");
+      console.error(`❌ OpenWeatherMap HTTP error [${response.status}]: ${errorText}`);
+      throw new Error("Failed to fetch weather data");
     }
 
     const data = await response.json();
     return data;
-  } catch (error: any) {
-    console.error("❌ Помилка в weatherService:", error.message || error);
-    throw new Error("Сталася непередбачувана помилка при отриманні погоди");
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("❌ Error in weatherService:", error.message);
+      throw new Error("Unexpected error occurred while fetching weather");
+    } else {
+      console.error("❌ Unknown error in weatherService:", error);
+      throw new Error("An unknown error occurred");
+    }
   }
 };

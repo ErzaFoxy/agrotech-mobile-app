@@ -4,7 +4,7 @@ export const getUserLocation = async (): Promise<{ lat: number; lon: number }> =
   try {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      console.warn('Геолокацію не дозволено. Використовується значення за замовчуванням.');
+      console.warn('Geolocation permission denied. Using default location.');
       return { lat: 48.4647, lon: 35.0462 }; // Дніпро
     }
 
@@ -14,7 +14,7 @@ export const getUserLocation = async (): Promise<{ lat: number; lon: number }> =
       lon: location.coords.longitude,
     };
   } catch (error) {
-    console.error('Помилка при отриманні геолокації:', error);
+    console.error('Error fetching user location:', error);
     return { lat: 48.4647, lon: 35.0462 }; // fallback
   }
 };

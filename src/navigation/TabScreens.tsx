@@ -23,7 +23,7 @@ const routes = [
   { key: 'subscription' },
 ];
 
-export const TabScreens = () => {
+export const TabScreens: React.FC = () => {
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
 

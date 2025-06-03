@@ -49,7 +49,7 @@ export const WeatherMap = () => {
                 const weatherData = await getWeatherByCoords(coords.latitude, coords.longitude);
                 setWeather(weatherData);
             } catch (error) {
-                console.warn("Не вдалося завантажити погоду", error);
+                console.warn("Failed to get starting weather", error);
                 setWeatherError(ua.errorServerTxt);
             } finally {
                 setIsWeatherLoading(false);
@@ -77,7 +77,7 @@ export const WeatherMap = () => {
                     setWeatherError(null);
                 }
             } catch (error) {
-                console.warn("Не вдалося отримати стартову погоду", error);
+                console.warn("Failed to get starting weather", error);
                 setWeatherError(ua.errorServerTxt);
             } finally {
                 setIsWeatherLoading(false);

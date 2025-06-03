@@ -14,11 +14,11 @@ interface Props {
 
 export const LayoutWrapper: React.FC<Props> = ({ children, currentTab = 0, setTabIndex = () => {} }) => {
   const [isImageLoaded, setImageLoaded] = useState(false);
-  const { endTransition } = useGlobalLoader();
+  const { setLayoutReady } = useGlobalLoader();
 
   const handleImageLoad = () => {
     setImageLoaded(true);
-    endTransition();
+    setLayoutReady();
   };
 
   return (

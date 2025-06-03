@@ -174,7 +174,7 @@ export const BaseCalculatorForm: React.FC<Props> = ({ title, mode, label }) => {
           >
             <Text style={styles.buttonText}>{ua.resultBtn}</Text>
           </TouchableOpacity>
-          {/* Локальний прелодер поверх карти */}
+          {/* Локальний прелодер поверх форми */}
           {isSaving && (
             <View style={styles.overlay}>
               <GlobalLoader visible={true} leavesStyle={{ bottom: '35%' }} />

@@ -9,6 +9,7 @@ import MenuIcon from '../../../assets/menu.svg';
 import CloseIcon from '../../../assets/close-icon.svg';
 import { setPendingTabIndex } from '../../services/tabNavigation';
 import { styles } from './HeaderMenu.styles';
+import { headerUA as ua } from '../../translations';
 
 interface Props {
     triggerRef: React.RefObject<View | null>;
@@ -17,12 +18,12 @@ interface Props {
 }
 
 const menuOptions = [
-    { label: 'Головна', value: 'culture', index: 0 },
-    { label: 'Кількість Га', value: 'area', index: 1 },
-    { label: 'Нотатки', value: 'notes', index: 2 },
-    { label: 'Погода', value: 'weather', index: 3 },
-    { label: 'Новини', value: 'news', index: 4 },
-    { label: 'Підписка', value: 'subscription', index: 5 },
+    { label: ua.home, value: 'culture', index: 0 },
+    { label: ua.areaForm, value: 'area', index: 1 },
+    { label: ua.notes, value: 'notes', index: 2 },
+    { label: ua.weather, value: 'weather', index: 3 },
+    { label: ua.news, value: 'news', index: 4 },
+    { label: ua.subscription, value: 'subscription', index: 5 },
 ];
 
 export const HeaderMenu: React.FC<Props> = ({ triggerRef, currentTab, setTabIndex }) => {
@@ -40,7 +41,7 @@ export const HeaderMenu: React.FC<Props> = ({ triggerRef, currentTab, setTabInde
         triggerRef.current.measureInWindow((x, y, width, height) => {
             const list = [
                 ...menuOptions,
-                { label: 'Профіль', value: 'profile', index: -1 },
+                { label: ua.profile, value: 'profile', index: -1 },
             ];
 
             const currentRoute = navState.routes[navState.index]?.name;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 
@@ -11,9 +11,9 @@ import { useGlobalLoader } from '../context/globalLoaderContext';
 
 const Stack = createNativeStackNavigator();
 
-export const AppNavigator = () => {
+export const AppNavigator: React.FC = () => {
   const navigationRef = useNavigationContainerRef();
-  const { startTransition, endTransition } = useGlobalLoader();
+  const { startTransition, setNavigationReady } = useGlobalLoader();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -23,23 +23,18 @@ export const AppNavigator = () => {
     };
   }, []);
 
+  const handleStateChange = useCallback(() => {
+    startTransition();
+    // Защита от множественных таймеров
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    // отмечаем, что навигация завершена
+    timeoutRef.current = setTimeout(() => {
+      setNavigationReady();
+    }, 2000);
+  }, [startTransition, setNavigationReady]);
+
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      onStateChange={() => {
-        startTransition();
-
-        // Защита от множественных таймеров
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
-
-        // Завершение перехода после небольшой паузы
-        timeoutRef.current = setTimeout(() => {
-          endTransition();
-        }, 1500); 
-      }}
-    >
+    <NavigationContainer ref={navigationRef} onStateChange={handleStateChange}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Tabs" component={TabScreens} />
         <Stack.Screen name="Register" component={RegisterScreen} />
