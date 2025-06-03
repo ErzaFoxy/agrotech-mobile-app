@@ -19,6 +19,7 @@ import { AuthPromptModal } from '../../modals/AuthPromptModal'
 import { useSaveNote } from '../../../hooks/useSaveNote';
 import { KeyboardDismissWrapper } from "../KeyboardDismissWrapper/KeyboardDismissWrapper";
 import { RecommendationPanel } from "../recommendationPanel/RecommendationPanel";
+import { GlobalLoader } from '../../shared/globalLoader/GlobalLoader';
 
 import IconPlus from "../../../../assets/plus-notes.svg";
 import IconPlusActive from "../../../../assets/plus-notes-active.svg";
@@ -127,53 +128,59 @@ export const BaseCalculatorForm: React.FC<Props> = ({ title, mode, label }) => {
   return (
 
 
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 32 }}
-        
-        showsVerticalScrollIndicator={true}
-        persistentScrollbar
-        scrollEnabled
-        keyboardShouldPersistTaps="handled"
-      >
-        <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <KeyboardDismissWrapper>
-        <SimpleDropDown
-          label={ua.cultureLabel}
-          value={culture}
-          setValue={setCulture}
-          list={cultureList}
-          error={!!error && !culture}
-        />
+    <ScrollView
+      contentContainerStyle={{ paddingBottom: 32 }}
 
-        <SimpleDropDown
-          label={ua.regionLabel}
-          value={region}
-          setValue={setRegion}
-          list={regionList}
-          error={!!error && !region}
-        />
+      showsVerticalScrollIndicator={true}
+      persistentScrollbar
+      scrollEnabled
+      keyboardShouldPersistTaps="handled"
+    >
+      <View style={styles.container}>
+        <Text style={styles.title}>{title}</Text>
+        <KeyboardDismissWrapper>
+          <SimpleDropDown
+            label={ua.cultureLabel}
+            value={culture}
+            setValue={setCulture}
+            list={cultureList}
+            error={!!error && !culture}
+          />
 
-        <Text style={styles.label}>{label}</Text>
-        <TextInput
-          style={[styles.input, getErrorStyle(inputValue)]}
-          placeholder={ua.inputPlaceholder}
-          value={inputValue}
-          onChangeText={setInputValue}
-          keyboardType="numeric"
-          placeholderTextColor="#fff"
-        />
+          <SimpleDropDown
+            label={ua.regionLabel}
+            value={region}
+            setValue={setRegion}
+            list={regionList}
+            error={!!error && !region}
+          />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            Keyboard.dismiss();
-            handleSubmit();
-          }}
-        >
-          <Text style={styles.buttonText}>{ua.resultBtn}</Text>
-        </TouchableOpacity>
-      </KeyboardDismissWrapper>
+          <Text style={styles.label}>{label}</Text>
+          <TextInput
+            style={[styles.input, getErrorStyle(inputValue)]}
+            placeholder={ua.inputPlaceholder}
+            value={inputValue}
+            onChangeText={setInputValue}
+            keyboardType="numeric"
+            placeholderTextColor="#fff"
+          />
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              Keyboard.dismiss();
+              handleSubmit();
+            }}
+          >
+            <Text style={styles.buttonText}>{ua.resultBtn}</Text>
+          </TouchableOpacity>
+          {/* Локальний прелодер поверх карти */}
+          {isSaving && (
+            <View style={styles.overlay}>
+              <GlobalLoader visible={true} leavesStyle={{ bottom: '35%' }} />
+            </View>
+          )}
+        </KeyboardDismissWrapper>
 
         {error ? <Text style={styles.errorText}>{error}</Text> :
           (calculatorResult ?
@@ -197,10 +204,9 @@ export const BaseCalculatorForm: React.FC<Props> = ({ title, mode, label }) => {
             <IconComponent width={styles.noteButton.width} height={styles.noteButton.height} />
           </TouchableOpacity>
         </View>
-</View>
-        <RecommendationPanel />
-      
-      
+      </View>
+      <RecommendationPanel />
+
       <AuthPromptModal
         isVisible={showAuthModal}
         onClose={() => setShowAuthModal(false)}
@@ -213,7 +219,7 @@ export const BaseCalculatorForm: React.FC<Props> = ({ title, mode, label }) => {
           navigation.navigate('Login');
         }}
       />
-      
+
     </ScrollView>
 
   );

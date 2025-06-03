@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
   successMessage: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#4CAF50",
+    color: "#fff",
     textAlign: "center",
     marginVertical: 20,
   },

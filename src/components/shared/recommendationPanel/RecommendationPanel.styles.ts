@@ -1,4 +1,7 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, Dimensions } from "react-native";
+
+const { width: screenWidth } = Dimensions.get('window');
+const iconSize = screenWidth * 0.155;
 
 export const styles = StyleSheet.create({
   container: {
@@ -21,12 +24,19 @@ export const styles = StyleSheet.create({
   },
   title: {
     color: "#fff",
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: "600",
     marginBottom: 12,
   },
+  iconRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  icon: {
+    width: iconSize,
+    height: iconSize,
+  },
   iconWrapper: {
-    marginRight: '3%',
     backgroundColor: "#fff",
     borderRadius: 12,
     shadowColor: "#000",
@@ -34,6 +44,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 4,
     elevation: 3,
-    height: 60,
+    height: iconSize,
+    width: iconSize,
   },
 });

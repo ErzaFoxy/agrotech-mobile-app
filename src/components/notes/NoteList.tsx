@@ -15,9 +15,9 @@ import { useNoteRefresh } from '../../context/noteRefreshContext';
 export const NoteList: React.FC = () => {
     const { user, loading: authLoading } = useAuth();
     const navigation = useNavigation();
-    const [notes, setNotes] = useState<Note[]>([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState<false | 'network' | 'other'>(false);
+    const [notes, setNotes] = useState<Note[] | null>(null); // null = не загружено
 
     const { subscribe } = useNoteRefresh();
 
@@ -28,9 +28,17 @@ export const NoteList: React.FC = () => {
             const userNotes = await getUserNotes(user.uid);
             setNotes(userNotes);
             setError(false);
-        } catch (err) {
+        } catch (err: any) {
             console.error('🔥 Error loading notes:', err);
-            setError(true);
+
+            // Проверяем конкретную ошибку Firebase
+            if (err.code === 'unavailable') {
+                setError('network');
+            } else {
+                setError('other');
+            }
+
+            setNotes(null); // сбрасываем в null, чтобы не отображать false-результаты
         } finally {
             setLoading(false);
         }
@@ -63,10 +71,12 @@ export const NoteList: React.FC = () => {
         );
     }
 
-    if (error) {
+    if (error === 'network' || error === 'other') {
         return (
             <View style={styles.centered}>
-                <Text style={styles.loginPrompt}>{ua.errorNotesTxt}</Text>
+                <Text style={styles.loginPrompt}>
+                    {error === 'network' ? ua.errorNotesOffline : ua.errorNotesTxt}
+                </Text>
                 <TouchableOpacity style={styles.button} onPress={fetchNotes}>
                     <Text style={styles.buttonText}>{ua.retryBtn}</Text>
                 </TouchableOpacity>
@@ -77,16 +87,22 @@ export const NoteList: React.FC = () => {
     return (
         <SafeAreaView style={styles.wrapper}>
             <SvgNoteIcon width={50} height={50} style={styles.icon} />
-            <ScrollView
-                contentContainerStyle={{ flexGrow: 1 }}
-                showsVerticalScrollIndicator
-                persistentScrollbar
-                scrollEnabled
-            >
-                {notes.map((note) => (
-                    <NoteCard key={note.id} note={note} />
-                ))}
-            </ScrollView>
+            {notes && notes.length === 0 ? (
+                <View style={[styles.centered, { marginBottom: '30%' }]}>
+                    <Text style={styles.loginPrompt}>{ua.noNotesText}</Text>
+                </View>
+            ) : (
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    showsVerticalScrollIndicator
+                    persistentScrollbar
+                    scrollEnabled
+                >
+                    {notes?.map((note) => (
+                        <NoteCard key={note.id} note={note} />
+                    ))}
+                </ScrollView>
+            )}
         </SafeAreaView>
     );
 };

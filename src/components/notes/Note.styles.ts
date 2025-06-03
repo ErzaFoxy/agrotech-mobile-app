@@ -5,7 +5,6 @@ const screenHeight = Dimensions.get("window").height;
 export const styles = StyleSheet.create({
   // --- СТИЛИ КАРТОЧКИ (NoteCard) ---
   card: {
-    flex: 1,
     backgroundColor: "rgba(104, 141, 125, 0.51)",
     borderRadius: 10,
     paddingVertical: 12,
@@ -24,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   dateText: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 15,
     marginBottom: 15,
   },
   lineText: {
@@ -34,6 +33,7 @@ export const styles = StyleSheet.create({
   },
   highlight: {
     color: "#FFDC00",
+    fontWeight: 300
   },
   resultText: {
     color: "#fff",
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   // --- СТИЛИ СПИСКА (NoteList) ---
   wrapper: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingTop: 0,
     paddingBottom: 20,
   },

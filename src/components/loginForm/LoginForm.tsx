@@ -84,36 +84,37 @@ export const LoginForm: React.FC = () => {
 
   return (
     <KeyboardDismissWrapper>
-    <View style={styles.container}>
-      
+      <View style={styles.container}>
+
         <View style={styles.containerForm}>
           {isResetMode ? (
-            <>
-              <Text style={styles.label}>{ua.emailLabel}</Text>
-              <TextInput
-                style={[styles.input, getErrorStyle(email)]}
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
+            successMessage ? (
+              <Text style={styles.successMessage}>{successMessage}</Text>
+            ) : (
+              <>
+                <Text style={styles.label}>{ua.emailLabel}</Text>
+                <TextInput
+                  style={[styles.input, getErrorStyle(email)]}
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
 
-              {error ? <Text style={styles.error}>{error}</Text> : null}
-              {successMessage ? (
-                <Text style={styles.successMessage}>{successMessage}</Text>
-              ) : null}
+                {error ? <Text style={styles.error}>{error}</Text> : null}
 
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  Keyboard.dismiss();
-                  handleResetPassword();
-                }}
-                disabled={loading}
-              >
-                {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{ua.sendInstructions}</Text>}
-              </TouchableOpacity>
-            </>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {
+                    Keyboard.dismiss();
+                    handleResetPassword();
+                  }}
+                  disabled={loading}
+                >
+                  {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{ua.sendInstructions}</Text>}
+                </TouchableOpacity>
+              </>
+            )
           ) : (
             <>
               <Text style={styles.label}>{ua.loginLabel}</Text>
@@ -153,28 +154,28 @@ export const LoginForm: React.FC = () => {
             </>
           )}
         </View>
-      
 
-      <TouchableOpacity
-        style={styles.secondaryButton}
-        onPress={() => {
-          setError('');
-          setSuccessMessage('');
-          setIsResetMode(prev => !prev);
-        }}
-      >
-        <Text style={styles.secondaryButtonText}>
-          {isResetMode ? ua.backToLogin : ua.forgotPassword}
-        </Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.secondaryButton, styles.secondaryButtonRegister]}
-        onPress={() => navigation.navigate('Register')}
-      >
-        <Text style={styles.secondaryButtonText}>{ua.goToRegister}</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => {
+            setError('');
+            setSuccessMessage('');
+            setIsResetMode(prev => !prev);
+          }}
+        >
+          <Text style={styles.secondaryButtonText}>
+            {isResetMode ? ua.backToLogin : ua.forgotPassword}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.secondaryButton, styles.secondaryButtonRegister]}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Text style={styles.secondaryButtonText}>{ua.goToRegister}</Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardDismissWrapper>
   );
 };

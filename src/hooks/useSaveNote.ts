@@ -53,7 +53,7 @@ export const useSaveNote = () => {
       timeoutId = setTimeout(() => {
         resetForm();
         setIsSaved(false);
-      }, 2200);
+      }, 2000);
     } catch (error) {
       console.error('🔥 ERROR in Firestore save:', error);
       setError(ua.savedError);

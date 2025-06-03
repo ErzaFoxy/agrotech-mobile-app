@@ -7,6 +7,8 @@ import {
     ActivityIndicator,
     ScrollView,
     Keyboard,
+    KeyboardAvoidingView,
+    Platform,
 } from 'react-native';
 
 import { useNavigation } from '../../navigation/hooks';
@@ -95,80 +97,89 @@ export const RegisterForm: React.FC = () => {
     return (
         <View style={{ flex: 1 }}>
             {success ? (
-                <View>
+                <View style={[styles.container, {marginTop: '60%'}]}>
                     <Text style={styles.successMessage}>{ua.registrationSuccess}</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.button}>
                         <Text style={styles.buttonText}>{ua.goToProfile}</Text>
                     </TouchableOpacity>
                 </View>
             ) : (
-                <KeyboardDismissWrapper>
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+                >
                     <ScrollView
-                        contentContainerStyle={{ flexGrow: 1 }}
+                        contentContainerStyle={{ paddingBottom: 32 }}
+                        showsVerticalScrollIndicator={true}
+                        persistentScrollbar
+                        scrollEnabled
+                        keyboardShouldPersistTaps="handled"
                     >
-                        <View style={styles.container}>
-                            <Text style={styles.label}>{ua.nameLabel}</Text>
-                            <TextInput style={[styles.input, getErrorStyle(name)]} value={name} onChangeText={setName} />
+                        <KeyboardDismissWrapper>
+                            <View style={styles.container}>
+                                <Text style={styles.label}>{ua.nameLabel}</Text>
+                                <TextInput style={[styles.input, getErrorStyle(name)]} value={name} onChangeText={setName} />
 
-                            <Text style={styles.label}>{ua.emailLabel}</Text>
-                            <TextInput
-                                style={[styles.input, getErrorStyle(email)]}
-                                value={email}
-                                onChangeText={setEmail}
-                                keyboardType="email-address"
-                                autoCapitalize="none"
-                            />
-
-                            <Text style={styles.label}>{ua.birthDateLabel}</Text>
-                            <DateInput
-                                ref={dateInputRef}
-                                value={birthDate}
-                                onChange={setBirthDate}
-                                setError={setError}
-                                inputStyle={[
-                                    styles.input,
-                                    error === ua.invalidDate ? styles.inputError : {},
-                                ]}
-                            />
-
-                            <Text style={styles.label}>{ua.passwordLabel}</Text>
-                            <View style={styles.passwordWrapper}>
+                                <Text style={styles.label}>{ua.emailLabel}</Text>
                                 <TextInput
-                                    style={[styles.input, getErrorStyle(password)]}
-                                    value={password}
-                                    onChangeText={setPassword}
-                                    secureTextEntry={!showPassword}
+                                    style={[styles.input, getErrorStyle(email)]}
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    keyboardType="email-address"
+                                    autoCapitalize="none"
                                 />
-                                <TouchableOpacity onPress={() => setShowPassword(prev => !prev)} style={styles.eyeButton}>
-                                    <Text>{showPassword ? '🙈' : '👁️'}</Text>
+
+                                <Text style={styles.label}>{ua.birthDateLabel}</Text>
+                                <DateInput
+                                    ref={dateInputRef}
+                                    value={birthDate}
+                                    onChange={setBirthDate}
+                                    setError={setError}
+                                    inputStyle={[
+                                        styles.input,
+                                        error === ua.invalidDate ? styles.inputError : {},
+                                    ]}
+                                />
+
+                                <Text style={styles.label}>{ua.passwordLabel}</Text>
+                                <View style={styles.passwordWrapper}>
+                                    <TextInput
+                                        style={[styles.input, getErrorStyle(password)]}
+                                        value={password}
+                                        onChangeText={setPassword}
+                                        secureTextEntry={!showPassword}
+                                    />
+                                    <TouchableOpacity onPress={() => setShowPassword(prev => !prev)} style={styles.eyeButton}>
+                                        <Text>{showPassword ? '🙈' : '👁️'}</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                {error ? <Text style={styles.error}>{error}</Text> : null}
+
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => {
+                                        Keyboard.dismiss();
+                                        handleRegister();
+                                    }}
+                                    disabled={loading}
+                                >
+                                    {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{ua.registerBtn}</Text>}
                                 </TouchableOpacity>
                             </View>
-
-                            {error ? <Text style={styles.error}>{error}</Text> : null}
-
                             <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => {
-                                    Keyboard.dismiss();
-                                    handleRegister();
-                                }}
-                                disabled={loading}
+                                onPress={() => navigation.navigate('Login')}
+                                style={styles.loginLinkContainer}
                             >
-                                {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{ua.registerBtn}</Text>}
+                                <Text style={styles.loginLinkWrapper}>
+                                    {ua.haveAccount}{' '}
+                                    <Text style={styles.loginLink}>{ua.loginLink}</Text>
+                                </Text>
                             </TouchableOpacity>
-                        </View>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('Login')}
-                            style={styles.loginLinkContainer}
-                        >
-                            <Text style={styles.loginLinkWrapper}>
-                                {ua.haveAccount}{' '}
-                                <Text style={styles.loginLink}>{ua.loginLink}</Text>
-                            </Text>
-                        </TouchableOpacity>
+                        </KeyboardDismissWrapper>
                     </ScrollView>
-
-                </KeyboardDismissWrapper>
+                </KeyboardAvoidingView>
             )}
 
         </View>

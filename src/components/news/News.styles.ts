@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
   // --- СТИЛИ СПИСКА ---
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingTop: 16,
     backgroundColor: "transparent",
   },

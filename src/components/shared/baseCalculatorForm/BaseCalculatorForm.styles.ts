@@ -3,7 +3,7 @@ import { StyleSheet, Platform } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 25,
+    paddingHorizontal: 40,
     paddingTop: '10%',
     backgroundColor: 'rgba(230, 206, 56, 0.01)'
   },
@@ -88,9 +88,15 @@ export const styles = StyleSheet.create({
   futureResult: {
     textAlign: 'center',
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '400',
     color: '#fff',
     marginTop: 50,
     marginBottom: 10
+  },
+  overlay: {
+      ...StyleSheet.absoluteFillObject,
+    zIndex: 1000,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
