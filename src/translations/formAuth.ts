@@ -10,7 +10,7 @@ export const formAuthUA = {
   passwordLabel: "Пароль",
   fillAllFields: "Будь ласка, заповніть усі поля",
   registerError: "Помилка реєстрації. Спробуйте пізніше",
-  authNotInitialized: "Щось пішло не так. Спробуйте ще раз пізніше",
+  generalError: "Щось пішло не так. Спробуйте ще раз пізніше",
   invalidEmail: "Будь ласка, введіть вірний email",
   invalidDate: "Невірна дата",
   haveAccount: "Вже маєте акаунт?",

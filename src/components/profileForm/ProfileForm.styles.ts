@@ -123,4 +123,9 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#fff",
   },
+  error: {
+    color: "#ff4444",
+    textAlign: "center",
+    marginTop: 8,
+  },
 });

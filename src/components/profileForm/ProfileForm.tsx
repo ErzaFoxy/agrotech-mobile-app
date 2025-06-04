@@ -19,6 +19,7 @@ export const ProfileForm: React.FC = () => {
     const navigation = useNavigation();
     const [userData, setUserData] = useState<{ name: string; birthDate: string; email: string; } | null>(null);
     const [loggedOut, setLoggedOut] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -31,6 +32,7 @@ export const ProfileForm: React.FC = () => {
                 }
             } catch (err) {
                 console.error('Error fetching user data:', err);
+                setError(ua.generalError);
             }
         };
 
@@ -43,6 +45,7 @@ export const ProfileForm: React.FC = () => {
             setLoggedOut(true);
         } catch (err) {
             console.error('Logout error:', err);
+            setError(ua.generalError);
         }
     };
 
@@ -93,10 +96,10 @@ export const ProfileForm: React.FC = () => {
                 numberOfLines={1}
                 selectionColor="transparent"
             />
-
             <TouchableOpacity style={styles.button} onPress={handleLogout}>
                 <Text style={styles.buttonText}>{ua.logoutBtn}</Text>
             </TouchableOpacity>
+            {error && <Text style={styles.error}>{error}</Text>}
 
             <Text style={styles.subscription}>{ua.subscriptionText}</Text>
 
@@ -110,9 +113,12 @@ export const ProfileForm: React.FC = () => {
                 <IconPlusActive width={styles.noteButton.width} height={styles.noteButton.height} />
             </TouchableOpacity>
 
-
-            {/*  navigation.navigate('SubscriptionScreen') */}
-            <TouchableOpacity style={styles.subscriptionBanner}>
+            <TouchableOpacity
+                onPress={() => {
+                    setPendingTabIndex(5);
+                    navigation.navigate('Tabs');
+                }}
+                style={styles.subscriptionBanner}>
                 <Text style={styles.bannerText}>{ua.subscriptionBannerText}</Text>
                 <IconSubscr width={styles.iconSubscr.width} height={styles.iconSubscr.height} />
             </TouchableOpacity>
