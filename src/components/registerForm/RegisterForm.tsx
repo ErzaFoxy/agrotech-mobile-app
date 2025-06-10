@@ -97,7 +97,7 @@ export const RegisterForm: React.FC = () => {
     return (
         <View style={{ flex: 1 }}>
             {success ? (
-                <View style={[styles.container, {marginTop: '60%'}]}>
+                <View style={[styles.container, { marginTop: '60%' }]}>
                     <Text style={styles.successMessage}>{ua.registrationSuccess}</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.button}>
                         <Text style={styles.buttonText}>{ua.goToProfile}</Text>
@@ -119,10 +119,16 @@ export const RegisterForm: React.FC = () => {
                         <KeyboardDismissWrapper>
                             <View style={styles.container}>
                                 <Text style={styles.label}>{ua.nameLabel}</Text>
-                                <TextInput style={[styles.input, getErrorStyle(name)]} value={name} onChangeText={setName} />
+                                <TextInput
+                                    accessibilityLabel={ua.nameLabel}
+                                    style={[styles.input, getErrorStyle(name)]}
+                                    value={name}
+                                    onChangeText={setName}
+                                />
 
                                 <Text style={styles.label}>{ua.emailLabel}</Text>
                                 <TextInput
+                                    accessibilityLabel={ua.emailLabel}
                                     style={[styles.input, getErrorStyle(email)]}
                                     value={email}
                                     onChangeText={setEmail}
@@ -145,6 +151,7 @@ export const RegisterForm: React.FC = () => {
                                 <Text style={styles.label}>{ua.passwordLabel}</Text>
                                 <View style={styles.passwordWrapper}>
                                     <TextInput
+                                        accessibilityLabel={ua.passwordLabel}
                                         style={[styles.input, getErrorStyle(password)]}
                                         value={password}
                                         onChangeText={setPassword}

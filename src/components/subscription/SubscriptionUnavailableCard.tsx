@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 
 import { useNavigation } from '../../navigation/hooks';
-import { setPendingTabIndex } from '../../services/tabNavigation';
 import SvgBag from '../../../assets/bag-green-icon.svg';
 import { subscriptionUA as ua } from '../../translations/subscription';
 import { styles } from './SubscriptionUnavailableCard.styles';

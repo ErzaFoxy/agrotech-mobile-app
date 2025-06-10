@@ -129,6 +129,7 @@ export const LoginForm: React.FC = () => {
               <Text style={styles.label}>{ua.passwordLabel}</Text>
               <View style={styles.passwordWrapper}>
                 <TextInput
+                  accessibilityLabel={ua.passwordLabel}
                   style={[styles.input, getErrorStyle(password)]}
                   value={password}
                   onChangeText={setPassword}

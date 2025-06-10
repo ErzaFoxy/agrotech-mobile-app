@@ -50,11 +50,11 @@ export const ProfileForm: React.FC = () => {
     };
 
     if (loggedOut) {
-        return (
+        return ( 
             <View style={styles.loggedOutContainer}>
                 <Text style={styles.successMessage}>{ua.loggedOutSuccess}</Text>
 
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.buttonText}>{ua.loginBtn}</Text>
                 </TouchableOpacity>
 
@@ -125,5 +125,3 @@ export const ProfileForm: React.FC = () => {
         </View>
     );
 };
-
-

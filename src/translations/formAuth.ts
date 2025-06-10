@@ -3,7 +3,7 @@ export const formAuthUA = {
   registerBtn: "Зареєструватись",
   loginBtn: "Увійти",
 
-  nameLabel: "Ім'я",
+  nameLabel: "Ім\'я",
   emailLabel: "Електронна пошта",
   loginLabel: "Логін",
   birthDateLabel: "Дата народження",

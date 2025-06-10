@@ -47,7 +47,7 @@ export const useSaveNote = () => {
         mode,
         userId: user.uid,
       });
-      refreshNotes(); // после успешного сохранения — обновляем список
+      refreshNotes();
 
       setIsSaved(true);
       timeoutId = setTimeout(() => {

@@ -33,3 +33,5 @@ export const calculateValue = (
 
   return mode === "culture" ? x * userValue : userValue / x;
 };
+
+
